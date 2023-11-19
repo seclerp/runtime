@@ -1661,6 +1661,10 @@ mono_init_debugger_agent_for_wasm (int log_level_parm, MonoProfilerHandle *prof)
 
 	agent_config.enabled = TRUE;
 
+	start_debugger_thread_func = start_debugger_thread;
+	suspend_vm_func = suspend_vm;
+	suspend_current_func = suspend_current;
+
 	mono_init_debugger_agent_common (prof);
 }
 
@@ -3570,6 +3574,8 @@ process_event (EventKind event, gpointer arg, gint32 il_offset, MonoContext *ctx
 	gboolean send_success = FALSE;
 	static int ecount;
 	int nevents;
+
+	PRINT_DEBUG_MSG (1, "WORKING LALALA\n");
 
 	if (!agent_inited) {
 		PRINT_DEBUG_MSG (2, "Debugger agent not initialized yet: dropping %s\n", event_to_string (event));
